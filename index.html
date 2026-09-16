@@ -4,58 +4,58 @@
   <meta charset="UTF-8">
 
   <meta name="viewport"
-        content="width=device-width,
-        initial-scale=1.0,
-        maximum-scale=1.0,
-        user-scalable=no">
+        content="width=device-width, initial-scale=1.0,
+        maximum-scale=1.0, user-scalable=no">
 
   <title>Gky Reward</title>
 
-  <!-- Telegram Mini App -->
+  <!-- Telegram WebApp -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- AdsGram -->
+  <!-- AdsGram SDK -->
   <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
     }
 
     body {
-      min-height: 100vh;
+      font-family: Arial, sans-serif;
       background: #f3f6fb;
       color: #17212b;
+      min-height: 100vh;
     }
 
     .header {
       background: #1684ff;
-      color: white;
+      color: #fff;
       padding: 28px 20px;
       border-radius: 0 0 28px 28px;
     }
 
     .header h1 {
-      font-size: 26px;
-      margin-bottom: 8px;
+      font-size: 27px;
+      margin-bottom: 7px;
     }
 
     .header p {
-      opacity: .9;
       font-size: 14px;
+      opacity: .9;
     }
 
     .container {
-      padding: 20px;
+      padding: 18px;
+      max-width: 600px;
+      margin: auto;
     }
 
     .card {
-      background: white;
+      background: #fff;
       border-radius: 20px;
-      padding: 22px;
+      padding: 20px;
       margin-bottom: 18px;
       box-shadow: 0 5px 20px rgba(0,0,0,.06);
     }
@@ -66,36 +66,27 @@
     }
 
     .balance {
-      font-size: 34px;
+      margin-top: 7px;
+      font-size: 35px;
       font-weight: bold;
-      margin-top: 8px;
     }
 
-    .ad-card {
-      text-align: center;
+    .title {
+      font-size: 21px;
+      margin-bottom: 8px;
     }
 
-    .ad-icon {
-      font-size: 50px;
-      margin-bottom: 12px;
-    }
-
-    .ad-card h2 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-
-    .ad-card p {
+    .description {
       color: #777;
       line-height: 1.5;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
-    #watchAd {
+    .btn {
       width: 100%;
-      border: none;
-      border-radius: 14px;
       padding: 16px;
+      border: 0;
+      border-radius: 14px;
       background: #1684ff;
       color: white;
       font-size: 17px;
@@ -103,244 +94,441 @@
       cursor: pointer;
     }
 
-    #watchAd:disabled {
+    .btn:disabled {
       opacity: .6;
     }
 
     .status {
       text-align: center;
-      margin-top: 14px;
-      color: #777;
+      margin-top: 12px;
       font-size: 14px;
-    }
-
-    .user-card {
-      font-size: 15px;
+      color: #777;
     }
 
     .user-name {
-      margin-top: 8px;
+      margin-top: 9px;
       color: #1684ff;
       font-weight: bold;
+    }
+
+    /* AdsGram Task */
+
+    adsgram-task {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border-radius: 16px;
+      background: #1d2733;
+      color: #fff;
+
+      --adsgram-task-font-size: 16px;
+      --adsgram-task-icon-size: 50px;
+      --adsgram-task-icon-title-gap: 15px;
+      --adsgram-task-button-width: 70px;
+      --adsgram-task-icon-border-radius: 8px;
+    }
+
+    .task-reward {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .task-button {
+      margin-left: 10px;
+      background: #50a8eb;
+      border-radius: 7px;
+      padding: 7px 12px;
+      display: inline-block;
+    }
+
+    .task-claim {
+      margin-left: 0;
+      background: #ee941c;
+    }
+
+    .task-done {
+      margin-left: 0;
+      background: #007539;
+    }
+
+    .footer {
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+      padding: 5px 0 25px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Header -->
-  <div class="header">
+  <!-- HEADER -->
+  <header class="header">
     <h1>🎁 Gky Reward</h1>
-    <p>Telegram Mini App</p>
-  </div>
+    <p>বিজ্ঞাপন দেখুন এবং Task সম্পূর্ণ করুন</p>
+  </header>
 
-  <div class="container">
 
-    <!-- Balance -->
-    <div class="card">
+  <main class="container">
+
+    <!-- BALANCE -->
+    <section class="card">
+
       <div class="balance-title">
-        বর্তমান ব্যালেন্স
+        💰 বর্তমান ব্যালেন্স
       </div>
 
       <div class="balance">
         ৳ <span id="balance">0.00</span>
       </div>
-    </div>
+
+    </section>
 
 
-    <!-- Advertisement -->
-    <div class="card ad-card">
+    <!-- INTERSTITIAL -->
+    <section class="card">
 
-      <div class="ad-icon">
-        📺
-      </div>
-
-      <h2>
-        বিজ্ঞাপন দেখুন
+      <h2 class="title">
+        📺 বিজ্ঞাপন
       </h2>
 
-      <p>
-        নিচের বাটনে চাপ দিলে বিজ্ঞাপন চালু হবে।
+      <p class="description">
+        বিজ্ঞাপন দেখতে নিচের বাটনে চাপ দিন।
       </p>
 
-      <button id="watchAd">
+      <button
+        class="btn"
+        id="watchAd">
         ▶️ বিজ্ঞাপন দেখুন
       </button>
 
-      <div class="status" id="status">
+      <div
+        class="status"
+        id="adStatus">
         প্রস্তুত
       </div>
 
-    </div>
+    </section>
 
 
-    <!-- Telegram User -->
-    <div class="card user-card">
+    <!-- TASK -->
+    <section class="card">
+
+      <h2 class="title">
+        🎯 Task
+      </h2>
+
+      <p class="description">
+        Task সম্পূর্ণ করে Reward গ্রহণ করুন।
+      </p>
+
+      <adsgram-task
+        data-block-id="task-48119"
+        class="task">
+
+        <p
+          slot="reward"
+          class="task-reward">
+          🪙 Reward
+        </p>
+
+        <div
+          slot="button"
+          class="task-button">
+          Go
+        </div>
+
+        <div
+          slot="claim"
+          class="task-button task-claim">
+          Claim
+        </div>
+
+        <div
+          slot="done"
+          class="task-button task-done">
+          Done
+        </div>
+
+      </adsgram-task>
+
+    </section>
+
+
+    <!-- USER -->
+    <section class="card">
 
       <b>👤 Telegram Account</b>
 
-      <div class="user-name" id="username">
+      <div
+        id="username"
+        class="user-name">
         Loading...
       </div>
 
+    </section>
+
+
+    <div class="footer">
+      Gky Reward • Telegram Mini App
     </div>
 
-  </div>
+  </main>
 
 
-<script>
+  <script>
 
-  // ==========================================
-  // TELEGRAM MINI APP
-  // ==========================================
+    /* =====================================
+       TELEGRAM
+    ===================================== */
 
-  const tg = window.Telegram.WebApp;
+    const tg = window.Telegram.WebApp;
 
-  tg.ready();
-  tg.expand();
-
-
-  // Telegram user information
-  const telegramUser =
-    tg.initDataUnsafe &&
-    tg.initDataUnsafe.user;
+    tg.ready();
+    tg.expand();
 
 
-  if (telegramUser) {
+    const user =
+      tg.initDataUnsafe &&
+      tg.initDataUnsafe.user;
 
-    let name = telegramUser.first_name || "";
 
-    if (telegramUser.last_name) {
-      name += " " + telegramUser.last_name;
+    if (user) {
+
+      let name = user.first_name || "";
+
+      if (user.last_name) {
+        name += " " + user.last_name;
+      }
+
+      if (user.username) {
+        name += " @" + user.username;
+      }
+
+      document.getElementById("username")
+        .textContent = name;
+
+    } else {
+
+      document.getElementById("username")
+        .textContent =
+        "Telegram user পাওয়া যায়নি";
+
     }
 
-    if (telegramUser.username) {
-      name += "  @" + telegramUser.username;
+
+    /* =====================================
+       BALANCE
+    ===================================== */
+
+    let balance =
+      parseFloat(
+        localStorage.getItem("gky_balance") || "0"
+      );
+
+
+    function updateBalance() {
+
+      document.getElementById("balance")
+        .textContent =
+        balance.toFixed(2);
+
     }
 
-    document.getElementById("username").innerText = name;
 
-  } else {
-
-    document.getElementById("username").innerText =
-      "Telegram user পাওয়া যায়নি";
-
-  }
+    updateBalance();
 
 
-  // ==========================================
-  // ADSGRAM
-  // ==========================================
+    /* =====================================
+       ADSGRAM INTERSTITIAL
+       BLOCK ID: 48118
+    ===================================== */
 
-  const BLOCK_ID = "int-48073";
-
-  let AdController = null;
+    let AdController = null;
 
 
-  function initializeAds() {
-
-    try {
+    function initAdsGram() {
 
       if (!window.Adsgram) {
 
-        document.getElementById("status").innerText =
-          "❌ AdsGram SDK লোড হয়নি";
+        console.error(
+          "AdsGram SDK not loaded"
+        );
 
         return false;
       }
 
 
-      AdController =
-        window.Adsgram.init({
-          blockId: BLOCK_ID
-        });
+      try {
 
+        AdController =
+          window.Adsgram.init({
+            blockId: "48118"
+          });
 
-      return true;
+        return true;
 
-    } catch (error) {
+      } catch (error) {
 
-      console.error("AdsGram initialization error:", error);
+        console.error(
+          "AdsGram initialization error:",
+          error
+        );
 
-      document.getElementById("status").innerText =
-        "❌ AdsGram চালু করা যায়নি";
-
-      return false;
-    }
-  }
-
-
-  // Initialize
-  initializeAds();
-
-
-  // ==========================================
-  // SHOW AD
-  // ==========================================
-
-  const button =
-    document.getElementById("watchAd");
-
-  const status =
-    document.getElementById("status");
-
-
-  button.addEventListener("click", async function () {
-
-    if (!AdController) {
-
-      const initialized = initializeAds();
-
-      if (!initialized) {
-        return;
+        return false;
       }
     }
 
 
-    button.disabled = true;
-
-    status.innerText =
-      "⏳ বিজ্ঞাপন লোড হচ্ছে...";
+    initAdsGram();
 
 
-    try {
+    /* =====================================
+       SHOW INTERSTITIAL
+    ===================================== */
 
-      await AdController.show();
+    const watchAd =
+      document.getElementById("watchAd");
 
-
-      status.innerText =
-        "✅ বিজ্ঞাপন শেষ হয়েছে";
-
-
-      /*
-       * IMPORTANT:
-       *
-       * তোমার Block ID হলো:
-       *
-       * int-48073
-       *
-       * এটি Interstitial block।
-       *
-       * তাই এখানে টাকা/Reward যোগ করা হচ্ছে না।
-       */
+    const adStatus =
+      document.getElementById("adStatus");
 
 
-    } catch (error) {
+    watchAd.addEventListener(
+      "click",
+      async function () {
 
-      console.error("AdsGram show error:", error);
+        if (!AdController) {
 
-      status.innerText =
-        "❌ বিজ্ঞাপন দেখানো যায়নি";
+          const ok =
+            initAdsGram();
+
+          if (!ok) {
+
+            adStatus.textContent =
+              "❌ AdsGram লোড হয়নি";
+
+            return;
+          }
+        }
+
+
+        watchAd.disabled = true;
+
+        adStatus.textContent =
+          "⏳ বিজ্ঞাপন লোড হচ্ছে...";
+
+
+        try {
+
+          await AdController.show();
+
+          adStatus.textContent =
+            "✅ বিজ্ঞাপন দেখানো হয়েছে";
+
+
+          /*
+            IMPORTANT:
+
+            Block 48118 যদি Interstitial হয়,
+            তাহলে এখানে টাকা Reward দেওয়া উচিত নয়।
+
+            Reward চাইলে AdsGram Reward/Task
+            system ব্যবহার করতে হবে।
+          */
+
+
+        } catch (error) {
+
+          console.error(
+            "AdsGram show error:",
+            error
+          );
+
+          adStatus.textContent =
+            "❌ বিজ্ঞাপন দেখানো যায়নি";
+
+        }
+
+
+        watchAd.disabled = false;
+
+      }
+    );
+
+
+    /* =====================================
+       ADSGRAM TASK
+       BLOCK ID: task-48119
+    ===================================== */
+
+    const task =
+      document.querySelector(
+        "adsgram-task"
+      );
+
+
+    if (task) {
+
+      task.addEventListener(
+        "reward",
+        function (event) {
+
+          console.log(
+            "Task reward:",
+            event.detail
+          );
+
+
+          document.getElementById(
+            "adStatus"
+          ).textContent =
+            "🎉 Task Reward সম্পন্ন হয়েছে!";
+
+        }
+      );
+
+
+      task.addEventListener(
+        "onError",
+        function (event) {
+
+          console.error(
+            "Task error:",
+            event.detail
+          );
+
+        }
+      );
+
+
+      task.addEventListener(
+        "onBannerNotFound",
+        function (event) {
+
+          console.log(
+            "Task banner not found:",
+            event.detail
+          );
+
+        }
+      );
+
+
+      task.addEventListener(
+        "onTooLongSession",
+        function () {
+
+          alert(
+            "Session অনেকক্ষণ চলছে। Mini App আবার চালু করুন।"
+          );
+
+        }
+      );
 
     }
 
-
-    button.disabled = false;
-
-  });
-
-
-</script>
+  </script>
 
 </body>
 </html>
