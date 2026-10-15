@@ -2,533 +2,122 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-
   <meta name="viewport"
-        content="width=device-width, initial-scale=1.0,
-        maximum-scale=1.0, user-scalable=no">
+        content="width=device-width, initial-scale=1.0">
 
-  <title>Gky Reward</title>
+  <title>My Telegram Mini App</title>
 
-  <!-- Telegram WebApp -->
+  <!-- Telegram Mini App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- AdsGram SDK -->
-  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  <!-- RichAds SDK -->
+  <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
       font-family: Arial, sans-serif;
-      background: #f3f6fb;
-      color: #17212b;
-      min-height: 100vh;
-    }
-
-    .header {
-      background: #1684ff;
-      color: #fff;
-      padding: 28px 20px;
-      border-radius: 0 0 28px 28px;
-    }
-
-    .header h1 {
-      font-size: 27px;
-      margin-bottom: 7px;
-    }
-
-    .header p {
-      font-size: 14px;
-      opacity: .9;
-    }
-
-    .container {
-      padding: 18px;
-      max-width: 600px;
-      margin: auto;
+      text-align: center;
+      padding: 24px;
+      background: #f4f6fb;
+      color: #222;
     }
 
     .card {
-      background: #fff;
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+      max-width: 360px;
+      margin: 30px auto;
+      padding: 24px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px #00000010;
     }
 
-    .balance-title {
-      color: #777;
-      font-size: 14px;
-    }
-
-    .balance {
-      margin-top: 7px;
-      font-size: 35px;
-      font-weight: bold;
-    }
-
-    .title {
-      font-size: 21px;
-      margin-bottom: 8px;
-    }
-
-    .description {
-      color: #777;
-      line-height: 1.5;
-      margin-bottom: 18px;
-    }
-
-    .btn {
+    button {
       width: 100%;
-      padding: 16px;
-      border: 0;
-      border-radius: 14px;
-      background: #1684ff;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #6c4df6;
       color: white;
-      font-size: 17px;
-      font-weight: bold;
+      font-size: 16px;
       cursor: pointer;
     }
 
-    .btn:disabled {
-      opacity: .6;
-    }
-
-    .status {
-      text-align: center;
-      margin-top: 12px;
+    #status {
       font-size: 14px;
-      color: #777;
-    }
-
-    .user-name {
-      margin-top: 9px;
-      color: #1684ff;
-      font-weight: bold;
-    }
-
-    /* AdsGram Task */
-
-    adsgram-task {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      border-radius: 16px;
-      background: #1d2733;
-      color: #fff;
-
-      --adsgram-task-font-size: 16px;
-      --adsgram-task-icon-size: 50px;
-      --adsgram-task-icon-title-gap: 15px;
-      --adsgram-task-button-width: 70px;
-      --adsgram-task-icon-border-radius: 8px;
-    }
-
-    .task-reward {
-      margin: 5px 0;
-      font-size: 14px;
-    }
-
-    .task-button {
-      margin-left: 10px;
-      background: #50a8eb;
-      border-radius: 7px;
-      padding: 7px 12px;
-      display: inline-block;
-    }
-
-    .task-claim {
-      margin-left: 0;
-      background: #ee941c;
-    }
-
-    .task-done {
-      margin-left: 0;
-      background: #007539;
-    }
-
-    .footer {
-      text-align: center;
-      color: #999;
-      font-size: 12px;
-      padding: 5px 0 25px;
+      margin-top: 14px;
     }
   </style>
 </head>
 
 <body>
+  <div class="card">
+    <h2>আমার Mini App</h2>
+    <p>বিজ্ঞাপন দেখতে নিচের বাটনে চাপ দিন।</p>
 
-  <!-- HEADER -->
-  <header class="header">
-    <h1>🎁 Gky Reward</h1>
-    <p>বিজ্ঞাপন দেখুন এবং Task সম্পূর্ণ করুন</p>
-  </header>
-
-
-  <main class="container">
-
-    <!-- BALANCE -->
-    <section class="card">
-
-      <div class="balance-title">
-        💰 বর্তমান ব্যালেন্স
-      </div>
-
-      <div class="balance">
-        ৳ <span id="balance">0.00</span>
-      </div>
-
-    </section>
-
-
-    <!-- INTERSTITIAL -->
-    <section class="card">
-
-      <h2 class="title">
-        📺 বিজ্ঞাপন
-      </h2>
-
-      <p class="description">
-        বিজ্ঞাপন দেখতে নিচের বাটনে চাপ দিন।
-      </p>
-
-      <button
-        class="btn"
-        id="watchAd">
-        ▶️ বিজ্ঞাপন দেখুন
-      </button>
-
-      <div
-        class="status"
-        id="adStatus">
-        প্রস্তুত
-      </div>
-
-    </section>
-
-
-    <!-- TASK -->
-    <section class="card">
-
-      <h2 class="title">
-        🎯 Task
-      </h2>
-
-      <p class="description">
-        Task সম্পূর্ণ করে Reward গ্রহণ করুন।
-      </p>
-
-      <adsgram-task
-        data-block-id="task-48119"
-        class="task">
-
-        <p
-          slot="reward"
-          class="task-reward">
-          🪙 Reward
-        </p>
-
-        <div
-          slot="button"
-          class="task-button">
-          Go
-        </div>
-
-        <div
-          slot="claim"
-          class="task-button task-claim">
-          Claim
-        </div>
-
-        <div
-          slot="done"
-          class="task-button task-done">
-          Done
-        </div>
-
-      </adsgram-task>
-
-    </section>
-
-
-    <!-- USER -->
-    <section class="card">
-
-      <b>👤 Telegram Account</b>
-
-      <div
-        id="username"
-        class="user-name">
-        Loading...
-      </div>
-
-    </section>
-
-
-    <div class="footer">
-      Gky Reward • Telegram Mini App
-    </div>
-
-  </main>
-
+    <button id="ad-button">বিজ্ঞাপন দেখুন</button>
+    <p id="status">অ্যাপ প্রস্তুত হচ্ছে...</p>
+  </div>
 
   <script>
+    const status = document.getElementById("status");
+    const adButton = document.getElementById("ad-button");
 
-    /* =====================================
-       TELEGRAM
-    ===================================== */
+    let richadsController = null;
 
-    const tg = window.Telegram.WebApp;
-
-    tg.ready();
-    tg.expand();
-
-
-    const user =
-      tg.initDataUnsafe &&
-      tg.initDataUnsafe.user;
-
-
-    if (user) {
-
-      let name = user.first_name || "";
-
-      if (user.last_name) {
-        name += " " + user.last_name;
+    function initAds() {
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
       }
 
-      if (user.username) {
-        name += " @" + user.username;
+      if (typeof window.TelegramAdsController !== "function") {
+        status.textContent =
+          "বিজ্ঞাপন SDK লোড হয়নি। পেজ রিফ্রেশ করুন।";
+        return;
       }
-
-      document.getElementById("username")
-        .textContent = name;
-
-    } else {
-
-      document.getElementById("username")
-        .textContent =
-        "Telegram user পাওয়া যায়নি";
-
-    }
-
-
-    /* =====================================
-       BALANCE
-    ===================================== */
-
-    let balance =
-      parseFloat(
-        localStorage.getItem("gky_balance") || "0"
-      );
-
-
-    function updateBalance() {
-
-      document.getElementById("balance")
-        .textContent =
-        balance.toFixed(2);
-
-    }
-
-
-    updateBalance();
-
-
-    /* =====================================
-       ADSGRAM INTERSTITIAL
-       BLOCK ID: 48118
-    ===================================== */
-
-    let AdController = null;
-
-
-    function initAdsGram() {
-
-      if (!window.Adsgram) {
-
-        console.error(
-          "AdsGram SDK not loaded"
-        );
-
-        return false;
-      }
-
 
       try {
+        richadsController = new window.TelegramAdsController();
 
-        AdController =
-          window.Adsgram.init({
-            blockId: "48118"
-          });
+        richadsController.initialize({
+          pubId: "1025776",
+          appId: "9310",
+          debug: true
+        });
 
-        return true;
-
+        status.textContent = "বিজ্ঞাপন সিস্টেম প্রস্তুত।";
       } catch (error) {
-
-        console.error(
-          "AdsGram initialization error:",
-          error
-        );
-
-        return false;
+        console.error("RichAds initialization error:", error);
+        status.textContent =
+          "বিজ্ঞাপন চালু হয়নি। Console পরীক্ষা করুন।";
       }
     }
 
-
-    initAdsGram();
-
-
-    /* =====================================
-       SHOW INTERSTITIAL
-    ===================================== */
-
-    const watchAd =
-      document.getElementById("watchAd");
-
-    const adStatus =
-      document.getElementById("adStatus");
-
-
-    watchAd.addEventListener(
-      "click",
-      async function () {
-
-        if (!AdController) {
-
-          const ok =
-            initAdsGram();
-
-          if (!ok) {
-
-            adStatus.textContent =
-              "❌ AdsGram লোড হয়নি";
-
-            return;
-          }
-        }
-
-
-        watchAd.disabled = true;
-
-        adStatus.textContent =
-          "⏳ বিজ্ঞাপন লোড হচ্ছে...";
-
-
-        try {
-
-          await AdController.show();
-
-          adStatus.textContent =
-            "✅ বিজ্ঞাপন দেখানো হয়েছে";
-
-
-          /*
-            IMPORTANT:
-
-            Block 48118 যদি Interstitial হয়,
-            তাহলে এখানে টাকা Reward দেওয়া উচিত নয়।
-
-            Reward চাইলে AdsGram Reward/Task
-            system ব্যবহার করতে হবে।
-          */
-
-
-        } catch (error) {
-
-          console.error(
-            "AdsGram show error:",
-            error
-          );
-
-          adStatus.textContent =
-            "❌ বিজ্ঞাপন দেখানো যায়নি";
-
-        }
-
-
-        watchAd.disabled = false;
-
+    adButton.addEventListener("click", async () => {
+      if (!richadsController) {
+        status.textContent = "বিজ্ঞাপন সিস্টেম প্রস্তুত নয়।";
+        return;
       }
-    );
 
+      adButton.disabled = true;
+      status.textContent = "বিজ্ঞাপন লোড হচ্ছে...";
 
-    /* =====================================
-       ADSGRAM TASK
-       BLOCK ID: task-48119
-    ===================================== */
+      try {
+        const result =
+          await richadsController.triggerInterstitialVideo();
 
-    const task =
-      document.querySelector(
-        "adsgram-task"
-      );
+        console.log("RichAds result:", result);
+        status.textContent = "বিজ্ঞাপন অনুরোধ সম্পন্ন হয়েছে।";
+      } catch (error) {
+        console.error("RichAds ad error:", error);
+        status.textContent =
+          "এখন বিজ্ঞাপন পাওয়া যায়নি। পরে চেষ্টা করুন।";
+      } finally {
+        adButton.disabled = false;
+      }
+    });
 
-
-    if (task) {
-
-      task.addEventListener(
-        "reward",
-        function (event) {
-
-          console.log(
-            "Task reward:",
-            event.detail
-          );
-
-
-          document.getElementById(
-            "adStatus"
-          ).textContent =
-            "🎉 Task Reward সম্পন্ন হয়েছে!";
-
-        }
-      );
-
-
-      task.addEventListener(
-        "onError",
-        function (event) {
-
-          console.error(
-            "Task error:",
-            event.detail
-          );
-
-        }
-      );
-
-
-      task.addEventListener(
-        "onBannerNotFound",
-        function (event) {
-
-          console.log(
-            "Task banner not found:",
-            event.detail
-          );
-
-        }
-      );
-
-
-      task.addEventListener(
-        "onTooLongSession",
-        function () {
-
-          alert(
-            "Session অনেকক্ষণ চলছে। Mini App আবার চালু করুন।"
-          );
-
-        }
-      );
-
-    }
-
+    window.addEventListener("load", initAds);
   </script>
-
 </body>
 </html>
